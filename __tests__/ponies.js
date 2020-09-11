@@ -20,5 +20,33 @@ describe("ponies integration tests", () => {
         expect(res.body.length).toBeGreaterThanOrEqual(3)
         expect(res.body[1].name).toBe("Pinkie Pie")
     })
+
+    it("GET /ponies/:id", async () => {
+        const res = await supertest(server).get("/ponies/2")
+        expect(res.statusCode).toBe(200)
+        expect(res.type).toBe("application/json")
+        expect(res.body.name).toBe("Pinkie Pie")
+    })
+
+    it("GET /ponies/:id", async () => {
+        const res = await supertest(server).get("/ponies/6")
+        expect(res.statusCode).toBe(404)
+    })
+
+    it("POST /ponies", async () => {
+        const res = await supertest(server).post("/ponies")
+        .send({name: "Applejack"})
+        expect(res.statusCode).toBe(201)
+        expect(res.type).toBe("application/json")
+        expect(res.body.name).toBe("Applejack")
+    })
+
+    it("DELETE /ponies/:id", async () => {
+        const res = await supertest(server).delete("/ponies/1")
+        expect(res.statusCode).toBe(204)
+    })
+
+
+
 })
 
