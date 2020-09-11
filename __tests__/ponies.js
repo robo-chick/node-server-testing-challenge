@@ -1,0 +1,24 @@
+const supertest = require("supertest")
+const server = require("../server")
+const db = require("../data/config")
+
+// run the seeds programatically before each test to start fresh
+beforeEach(async () => {
+    await db.seed.run()
+})
+
+// close the database connection so the test process doesn't hang or give a warning
+afterAll(async () => {
+    await db.destroy()
+})
+
+describe("ponies integration tests", () => {
+    it("GET /ponies", async () => {
+        const res = await supertest(server).get("/ponies")
+        expect(res.statusCode).toBe(200)
+        expect(res.type).toBe("application/json")
+        expect(res.body.length).toBeGreaterThanOrEqual(3)
+        expect(res.body[1].name).toBe("Pinkie Pie")
+    })
+})
+
