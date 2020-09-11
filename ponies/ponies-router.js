@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
 	try {
-		const pony = await Ponies.findById(req.params.id)
+        const pony = await Ponies.findById(req.params.id)
 		if (!pony) {
 			return res.status(404).json({
 				message: "Pony not found",
@@ -34,9 +34,10 @@ router.post("/", async (req, res, next) => {
     }
 })
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
     try {
-        const pony = Ponies.remove(req.params.id)
+        const pony = await Ponies.remove(req.params.id)
+        
         if(!pony) {
             return res.status(404).json({
                 message: "Pony not found!"

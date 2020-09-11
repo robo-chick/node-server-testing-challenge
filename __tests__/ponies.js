@@ -28,7 +28,7 @@ describe("ponies integration tests", () => {
         expect(res.body.name).toBe("Pinkie Pie")
     })
 
-    it("GET /ponies/:id", async () => {
+    it("GET /ponies/:id sends error if pony not found", async () => {
         const res = await supertest(server).get("/ponies/6")
         expect(res.statusCode).toBe(404)
     })
@@ -46,7 +46,10 @@ describe("ponies integration tests", () => {
         expect(res.statusCode).toBe(204)
     })
 
-
-
+    it("DELETE /ponies/:id sends error if pony not found", async () => {
+        const res = await supertest(server).delete("/ponies/88")
+        expect(res.statusCode).toBe(404)
+        expect(res.type).toBe("application/json")
+    })
 })
 
